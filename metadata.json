@@ -1,0 +1,6 @@
+{
+  "name": "JOYGAMING",
+  "description": "Aplikasi Game Koding Interaktif untuk Anak-anak dengan 100 level, Drag & Drop, Sound Effects, Mascot Joy, Profil & Leaderboard.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

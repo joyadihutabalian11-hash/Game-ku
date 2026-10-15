@@ -1,0 +1,60 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Antenna -->
+    <path
+        android:fillColor="#FFD54F"
+        android:pathData="M54,18m-5,0a5,5 0 1,1 10,0a5,5 0 1,1 -10,0" />
+    <path
+        android:strokeColor="#FFD54F"
+        android:strokeWidth="3"
+        android:pathData="M54,23 L54,30" />
+
+    <!-- Cute Head Shell -->
+    <path
+        android:fillColor="#FFCA28"
+        android:pathData="M30,30 h48 a14,14 0 0 1 14,14 v24 a14,14 0 0 1 -14,14 h-48 a14,14 0 0 1 -14,-14 v-24 a14,14 0 0 1 14,-14 Z" />
+    
+    <!-- Ears / Headphones -->
+    <path
+        android:fillColor="#FF4081"
+        android:pathData="M12,42 h6 v20 h-6 a4,4 0 0 1 -4,-4 v-12 a4,4 0 0 1 4,-4 Z" />
+    <path
+        android:fillColor="#FF4081"
+        android:pathData="M90,42 h6 a4,4 0 0 1 4,4 v12 a4,4 0 0 1 -4,4 h-6 Z" />
+
+    <!-- Screen Face -->
+    <path
+        android:fillColor="#1A237E"
+        android:pathData="M24,36 h60 a8,8 0 0 1 8,8 v18 a8,8 0 0 1 -8,8 h-60 a8,8 0 0 1 -8,-8 v-18 a8,8 0 0 1 8,-8 Z" />
+
+    <!-- Left Eye -->
+    <path
+        android:fillColor="#00E676"
+        android:pathData="M38,45m-6,0a6,6 0 1,1 12,0a6,6 0 1,1 -12,0" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M36,43m-2,0a2,2 0 1,1 4,0a2,2 0 1,1 -4,0" />
+
+    <!-- Right Eye -->
+    <path
+        android:fillColor="#00E676"
+        android:pathData="M70,45m-6,0a6,6 0 1,1 12,0a6,6 0 1,1 -12,0" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M68,43m-2,0a2,2 0 1,1 4,0a2,2 0 1,1 -4,0" />
+
+    <!-- Cheerful Mouth -->
+    <path
+        android:strokeColor="#FFEB3B"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:pathData="M46,58 Q54,66 62,58" />
+
+    <!-- Star Emblem on Chest -->
+    <path
+        android:fillColor="#FF9800"
+        android:pathData="M54,80 L56.5,85 L62,85.5 L58,89 L59.5,94.5 L54,91.5 L48.5,94.5 L50,89 L46,85.5 L51.5,85 Z" />
+</vector>
