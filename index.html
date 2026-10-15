@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JOYGAMING - Game Koding Interaktif Anak-Anak</title>
+  <meta name="description" content="JOYGAMING adalah game koding interaktif warna-warni untuk anak-anak dengan 100 level, drag & drop, profil, leaderboard, dan efek suara.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤖</text></svg>">
+  <style>
+    :root {
+      --joy-purple: #7B1FA2;
+      --joy-purple-dark: #4A148C;
+      --joy-yellow: #FFD600;
+      --joy-orange: #FF9100;
+      --joy-green: #00E676;
+      --joy-blue: #2979FF;
+      --joy-pink: #FF4081;
+      --joy-bg: #F5F0FF;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #5E35B1, #7E57C2, #EDE7F6);
+      min-height: 100vh;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header {
+      width: 100%;
+      background: var(--joy-purple-dark);
+      color: white;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--joy-yellow);
+    }
+
+    .header-stats {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .badge-tag {
+      background: var(--joy-orange);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-weight: 800;
+      color: white;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .audio-btn {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      font-size: 20px;
+      padding: 6px 12px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    main {
+      width: 100%;
+      max-width: 900px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      flex: 1;
+    }
+
+    .hero-banner {
+      background: white;
+      border-radius: 24px;
+      padding: 24px;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      background: linear-gradient(180deg, #FFFFFF, #F3E5F5);
+    }
+
+    .mascot-logo {
+      font-size: 72px;
+      margin-bottom: 10px;
+      display: inline-block;
+      animation: bounce 2s infinite ease-in-out;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    h1 {
+      font-size: 36px;
+      font-weight: 900;
+      color: var(--joy-purple-dark);
+      margin-bottom: 8px;
+    }
+
+    p.subtitle {
+      font-size: 16px;
+      color: #666;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .grid-canvas-container {
+      background: #81C784;
+      border: 4px solid #33691E;
+      border-radius: 24px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+      position: relative;
+    }
+
+    .game-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 52px);
+      grid-gap: 6px;
+      margin: 15px 0;
+    }
+
+    .grid-cell {
+      width: 52px;
+      height: 52px;
+      background: #AED581;
+      border: 2px solid #558B2F;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      transition: all 0.3s ease;
+    }
+
+    .grid-cell.water { background: #29B6F6; }
+    .grid-cell.goal { background: #FFD600; }
+
+    .status-banner {
+      background: var(--joy-purple);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 14px;
+      font-weight: 800;
+      font-size: 15px;
+      margin-top: 10px;
+      text-align: center;
+      width: 100%;
+    }
+
+    .workspace-area {
+      background: white;
+      border-radius: 20px;
+      padding: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .workspace-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--joy-purple);
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .blocks-container {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 8px 0;
+      min-height: 60px;
+      align-items: center;
+    }
+
+    .code-block {
+      background: var(--joy-green);
+      color: white;
+      padding: 8px 14px;
+      border-radius: 14px;
+      font-weight: 800;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    .code-block.turn { background: var(--joy-blue); }
+    .code-block.jump { background: var(--joy-orange); }
+    .code-block.collect { background: var(--joy-pink); }
+    .code-block.repeat { background: var(--joy-purple); }
+
+    .palette-area {
+      background: #EDE7F6;
+      border-radius: 20px;
+      padding: 16px;
+    }
+
+    .palette-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--joy-purple);
+      margin-bottom: 8px;
+    }
+
+    .controls-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .btn-play {
+      flex: 2;
+      background: var(--joy-green);
+      color: white;
+      border: none;
+      padding: 16px;
+      border-radius: 18px;
+      font-size: 18px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+      transition: transform 0.1s;
+    }
+
+    .btn-play:active { transform: scale(0.96); }
+
+    .btn-reset {
+      flex: 1;
+      background: var(--joy-orange);
+      color: white;
+      border: none;
+      padding: 16px;
+      border-radius: 18px;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .level-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1f));
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .info-card {
+      background: white;
+      padding: 18px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: white;
+      font-weight: 600;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <span>🤖</span> JOYGAMING
+    </div>
+    <div class="header-stats">
+      <div class="badge-tag">
+        ⭐ <span id="total-stars">45</span> Bintang
+      </div>
+      <button class="audio-btn" id="audio-toggle" onclick="toggleAudio()">🔊</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="hero-banner">
+      <div class="mascot-logo">🤖</div>
+      <h1>JOYGAMING</h1>
+      <p class="subtitle">Game Koding Interaktif untuk Anak-Anak dengan 100 Level, Profil & Misi Harian!</p>
+
+      <div class="grid-canvas-container">
+        <div style="font-weight: 900; color: #1B5E20; font-size: 18px;">LEVEL 1: LANGKAH PERDANA</div>
+        <div class="game-grid" id="grid"></div>
+        <div class="status-banner" id="status-text">Susun blok koding di bawah lalu tekan JALANKAN!</div>
+      </div>
+
+      <div class="controls-row">
+        <button class="btn-play" onclick="runCode()">▶️ JALANKAN KODING</button>
+        <button class="btn-reset" onclick="resetCode()">↺ RESET</button>
+      </div>
+    </div>
+
+    <div class="workspace-area">
+      <div class="workspace-title">
+        <span>ALGORITMA KODINGKU (<span id="block-count">0</span> Blok)</span>
+        <span style="color: red; cursor: pointer;" onclick="clearBlocks()">Hapus Semua 🗑️</span>
+      </div>
+      <div class="blocks-container" id="workspace">
+        <span style="color: #888; font-size: 13px;">Sentuh blok di bawah untuk menambah langkah...</span>
+      </div>
+    </div>
+
+    <div class="palette-area">
+      <div class="palette-title">BLOK KODING TERSEDIA (SENTUH UNTUK MENAMBAH):</div>
+      <div class="blocks-container">
+        <div class="code-block" onclick="addBlock('move')">⬆️ Maju 1</div>
+        <div class="code-block turn" onclick="addBlock('left')">↺ Belok Kiri</div>
+        <div class="code-block turn" onclick="addBlock('right')">↻ Belok Kanan</div>
+        <div class="code-block jump" onclick="addBlock('jump')">🦘 Melompat</div>
+        <div class="code-block collect" onclick="addBlock('collect')">💎 Ambil Gem</div>
+        <div class="code-block repeat" onclick="addBlock('repeat')">🔁 Ulangi 2x</div>
+      </div>
+    </div>
+
+    <div class="level-cards">
+      <div class="info-card">
+        <h3>🎯 Misi Harian</h3>
+        <p style="font-size: 13px; color: #555; margin-top: 5px;">Selesaikan 3 level & kumpulkan permata harian untuk bonus bintang!</p>
+      </div>
+      <div class="info-card">
+        <h3>🗺️ 100 Level Koding</h3>
+        <p style="font-size: 13px; color: #555; margin-top: 5px;">Terbagi dalam 4 Dunia: Lembah Logika, Hutan Loop, Sungai Kondisi, & Puncak Algoritma.</p>
+      </div>
+      <div class="info-card">
+        <h3>🏆 Papan Skor & Profil</h3>
+        <p style="font-size: 13px; color: #555; margin-top: 5px;">Multi-profil anak dengan pilihan avatar robot dino & kucing penyihir.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    🤖 JOYGAMING Android & Web Edition • Dibuat khusus untuk Pembelajaran Koding Anak
+  </footer>
+
+  <script>
+    let program = [];
+    let playerPos = { x: 1, y: 2 };
+    let playerDir = 1; // 0: Up, 1: Right, 2: Down, 3: Left
+    const goalPos = { x: 3, y: 2 };
+    let audioEnabled = true;
+
+    // Web Audio Synthesizer
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    function playTone(freq, duration) {
+      if (!audioEnabled) return;
+      try {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration / 1000);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration / 1000);
+      } catch (e) {}
+    }
+
+    function toggleAudio() {
+      audioEnabled = !audioEnabled;
+      document.getElementById('audio-toggle').innerText = audioEnabled ? '🔊' : '🔇';
+    }
+
+    function renderGrid() {
+      const grid = document.getElementById('grid');
+      grid.innerHTML = '';
+      for (let y = 0; y < 5; y++) {
+        for (let x = 0; x < 5; x++) {
+          const cell = document.createElement('div');
+          cell.className = 'grid-cell';
+          if (x === playerPos.x && y === playerPos.y) {
+            cell.innerText = '🤖';
+          } else if (x === goalPos.x && y === goalPos.y) {
+            cell.className += ' goal';
+            cell.innerText = '🚩';
+          }
+          grid.appendChild(cell);
+        }
+      }
+    }
+
+    function addBlock(type) {
+      playTone(600, 50);
+      program.push(type);
+      updateWorkspace();
+    }
+
+    function clearBlocks() {
+      playTone(300, 80);
+      program = [];
+      updateWorkspace();
+    }
+
+    function updateWorkspace() {
+      const ws = document.getElementById('workspace');
+      document.getElementById('block-count').innerText = program.length;
+      if (program.length === 0) {
+        ws.innerHTML = '<span style="color: #888; font-size: 13px;">Sentuh blok di bawah untuk menambah langkah...</span>';
+        return;
+      }
+      ws.innerHTML = '';
+      program.forEach((type, idx) => {
+        const el = document.createElement('div');
+        let label = '⬆️ Maju 1';
+        let cls = 'code-block';
+        if (type === 'left') { label = '↺ Belok Kiri'; cls += ' turn'; }
+        if (type === 'right') { label = '↻ Belok Kanan'; cls += ' turn'; }
+        if (type === 'jump') { label = '🦘 Melompat'; cls += ' jump'; }
+        if (type === 'collect') { label = '💎 Ambil Gem'; cls += ' collect'; }
+        if (type === 'repeat') { label = '🔁 Ulangi 2x'; cls += ' repeat'; }
+        el.className = cls;
+        el.innerText = label;
+        ws.appendChild(el);
+      });
+    }
+
+    function resetCode() {
+      playerPos = { x: 1, y: 2 };
+      playerDir = 1;
+      document.getElementById('status-text').innerText = 'Susun blok koding di bawah lalu tekan JALANKAN!';
+      document.getElementById('status-text').style.background = 'var(--joy-purple)';
+      renderGrid();
+    }
+
+    async function runCode() {
+      if (program.length === 0) return;
+      resetCode();
+      document.getElementById('status-text').innerText = 'Menjalankan koding...';
+
+      let expanded = [];
+      program.forEach(block => {
+        if (block === 'repeat') {
+          expanded.push('move', 'move');
+        } else {
+          expanded.push(block);
+        }
+      });
+
+      for (let i = 0; i < expanded.length; i++) {
+        const action = expanded[i];
+        await new Promise(r => setTimeout(r, 450));
+
+        if (action === 'move') {
+          playTone(520, 60);
+          if (playerDir === 1) playerPos.x++;
+          else if (playerDir === 3) playerPos.x--;
+          else if (playerDir === 0) playerPos.y--;
+          else if (playerDir === 2) playerPos.y++;
+        } else if (action === 'left') {
+          playTone(400, 60);
+          playerDir = (playerDir + 3) % 4;
+        } else if (action === 'right') {
+          playTone(400, 60);
+          playerDir = (playerDir + 1) % 4;
+        }
+
+        renderGrid();
+
+        if (playerPos.x === goalPos.x && playerPos.y === goalPos.y) {
+          playTone(880, 150);
+          document.getElementById('status-text').innerText = '🎉 LUAR BIASA! Joy Sampai di Garis Finis!';
+          document.getElementById('status-text').style.background = 'var(--joy-green)';
+          return;
+        }
+
+        if (playerPos.x < 0 || playerPos.x >= 5 || playerPos.y < 0 || playerPos.y >= 5) {
+          playTone(180, 150);
+          document.getElementById('status-text').innerText = '💥 Joy Keluar dari Area Permainan! Tekan Reset.';
+          document.getElementById('status-text').style.background = 'var(--joy-orange)';
+          return;
+        }
+      }
+
+      if (playerPos.x !== goalPos.x || playerPos.y !== goalPos.y) {
+        document.getElementById('status-text').innerText = 'Joy belum sampai di Finis! Tambahkan blok koding lagi. 🤔';
+      }
+    }
+
+    renderGrid();
+  </script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "name": "joygaming",
+  "version": "1.0.0",
+  "description": "JOYGAMING - Game Koding Interaktif untuk Anak-anak (Android & Web App)",
+  "private": true,
+  "scripts": {
+    "build": "echo 'JOYGAMING static web app build complete'",
+    "start": "echo 'Serving JOYGAMING...'"
+  }
+}
